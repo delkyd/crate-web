@@ -1,0 +1,52 @@
+title: Kitematic, the Docker GUI for Mac OS
+description: This post shows how to use Kitematic, the Docker GUI for Mac OS.
+created: 2015/03/13 18:00:00
+author: Chris Ward
+category: developer-news
+tags: docker,gui,mac,kitematic,tools
+
+
+I know I'm going to sound uncool amongst my developer peers, but I love GUIs. Whenever I discover a new tool for making my development life easier, my next step is always to see if there is a GUI companion. So, for the last month I have been using Kitematic to manage my containers and have found it a great visual way of learning more about Docker.
+
+Last week, [the Docker team announced](https://blog.docker.com/2015/03/kitematic-a-docker-gui-joins-the-docker-family/) that the folks behind Kitematic where joining them in San Francisco. So it seemed high time for Crate to publish a blog post on using the tool.
+
+It's a simple [download](https://kitematic.com/download) and on its first run Kitematic will handle the installation of all dependencies for you ([VirtualBox](https://www.virtualbox.org/) is the only one). Yes Mac Users, you no longer need to use Boot2Docker if you don't want to!
+
+On launch the Docker VM will start automatically.
+
+![Kitematic starting the Docker VM](https://cdn.crate.io/media/1503/vm-start.png)
+
+The application has some preferences that have become far simpler as development progressed, these relate to reporting and whether to shut down the VM on quitting Kitematic.
+
+## Features
+
+![Container Creation](https://cdn.crate.io/media/1503/container-creation.png)
+
+Aside from the easy creation of containers, Kitematic has several other useful features, these include:
+
+* **Launching Terminal**: Easily open the Docker terminal or the terminal of one of your containers.
+
+![Terminal button](https://cdn.crate.io/media/1503/terminal.png)
+
+* **View logs**: One of my issues with containerized development is being able to see what's going on, Kitematic gives you easy access to logs.
+
+![Access logs](https://cdn.crate.io/media/1503/logs.png)
+
+* **Settings**: Kitematic provides a simple interface to the viewing and setting of ports, environment variables, naming and folder sharing.
+
+![Container settings](https://cdn.crate.io/media/1503/settings.png)
+
+## Problems and Gotchas
+Kitematic is in beta, so there will be some inconsistencies and room for improvement. I found the earlier versions of Kitematic had more features, some of which I hope will return in a later version. Here are a couple of nuggets I found during use.
+
+* **Boot2Docker**: If you already have Boot2Docker installed you will end up with two Docker VMs, this may or may not be a problem to you and you can probably remove one of them.
+
+* **Not-quite-native**: Kitematic is not a 'proper' Mac app, but some form of hybrid web app. This is not a big deal, but does mean the interface is not completely 'Mac like'.
+
+* **VM Shutdown on quit**: I have found this setting sometimes needs to be toggled off and on for it to work.
+
+* **No images**: In earlier versions of Kitematic you could manage images, hopefully this will make a future return.
+
+* **No instructions** : Occasionally there are special steps in setting up a Docker container from certain images and there is no way to access these details from within the GUI.
+
+* **More Control**: In earlier versions of Kitematic there were more options for stopping and starting containers individually. Again, I hope these will make a comeback.
