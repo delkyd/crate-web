@@ -16,15 +16,15 @@ On launch the Docker VM will start automatically.
 
 ![Kitematic starting the Docker VM](https://cdn.crate.io/media/1503/vm-start.png)
 
-The application has some preferences that have become far simpler as development progressed, these relate to reporting and whether to shut down the VM on quitting Kitematic.
+The application has some settings, these relate to reporting and whether to shut down the VM on quitting Kitematic.
 
 ## Features
 
 ![Container Creation](https://cdn.crate.io/media/1503/container-creation.png)
 
-Aside from the easy creation of containers, Kitematic has several other useful features, these include:
+Aside from the easy creation of containers, Kitematic has several other features, these include:
 
-* **Launching Terminal**: Easily open the Docker terminal or the terminal of one of your containers.
+* **Launching Terminal**: Open the Docker terminal or the terminal of one of your containers.
 
 ![Terminal button](https://cdn.crate.io/media/1503/terminal.png)
 
@@ -32,21 +32,46 @@ Aside from the easy creation of containers, Kitematic has several other useful f
 
 ![Access logs](https://cdn.crate.io/media/1503/logs.png)
 
-* **Settings**: Kitematic provides a simple interface to the viewing and setting of ports, environment variables, naming and folder sharing.
+* **Settings**: Kitematic provides a simple interface to the viewing of ports, environment variables, naming and folder sharing.
 
 ![Container settings](https://cdn.crate.io/media/1503/settings.png)
 
-## Problems and Gotchas
-Kitematic is in beta, so there will be some inconsistencies and room for improvement. I found the earlier versions of Kitematic had more features, some of which I hope will return in a later version. Here are a couple of nuggets I found during use.
+## Using Kitematic with Crate
+
+For the purposes of this example, I will follow our existing [Docker guide](/docs/docker/) and replace each step with how you might accomplish it using Kitematic.
+
+Our first command is `docker run -d -p 4200:4200 -p 4300:4300 crate:latest`
+
+Kitematic can't run containers on the fly in this manner, everything has to be set up first. To acheive the above we would undertake the following steps:
+
+1. From the Kitematic home page search for 'crate'. You will see several results, we want the one marked as 'official'. The _latest_ version will be automatically used.
+2. Click its 'create' button, it will now download the image and run straight away, in 'detached' mode (the `-d` flag above).
+3. Newer versions of Kitematic no longer allow you to change the port(s) that a container is published to, so you're stuck with the automatically assigned ones unless you jump into command line.
+
+The next command is `docker run -d -p 4200:4200 -p 4300:4300 -v <data-dir>:/data crate`
+
+A persistent data directory has also been set for us and can be changed in the _Settings_ -> _Volumes_ tab.
+
+Next we have setting crate settings via the `-Des` flag, i.e. `-Des.config=/path/to/crate.yml`. I can't find a way to do this from teh Kitematic GUI yet.
+
+Settings environment variables, for example:
+
+`docker run -d -p 4200:4200 -p 4300:4300 --env CRATE_HEAP_SIZE=32g crate`
+
+To do this, click the _Settings_ tab and add the relevant name/variable pair in the _Environment Variables_ section.
+
+Despite these restrictions, Crate's clustering still works fine with containers created in Kitematic. I created 3 containers, then opened up the IP address of any one of the containers mapped to port 4200, with '/admin' suffixed to the address. In the admin console I can see 3 nodes, I add or remove containers and the number updates. Running through the typical Crate Trial (Importing Tweets from the 'Get Started' tab) everything works as expected.
+
+## Problems and Summary
+
+I found the earlier versions of Kitematic had more features and control, some of which I hope will return in a later version. Here are a couple of other tips I found during use.
 
 * **Boot2Docker**: If you already have Boot2Docker installed you will end up with two Docker VMs, this may or may not be a problem to you and you can probably remove one of them.
-
-* **Not-quite-native**: Kitematic is not a 'proper' Mac app, but some form of hybrid web app. This is not a big deal, but does mean the interface is not completely 'Mac like'.
-
-* **VM Shutdown on quit**: I have found this setting sometimes needs to be toggled off and on for it to work.
 
 * **No images**: In earlier versions of Kitematic you could manage images, hopefully this will make a future return.
 
 * **No instructions** : Occasionally there are special steps in setting up a Docker container from certain images and there is no way to access these details from within the GUI.
 
-* **More Control**: In earlier versions of Kitematic there were more options for stopping and starting containers individually. Again, I hope these will make a comeback.
+In summary, Kitematic is aimed at getting up and running with Docker quickly and for those who don't want to do anything complicated. If you are happy with container defaults and have no complex requirements, then it will be fine for you. Any containers and images you create and configure via the command line will appear in Kitematic, so at least you have an integrated place to manage things.
+
+I look forward to seeing how the application develops over time.
